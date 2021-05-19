@@ -12,6 +12,7 @@ class terms_biz extends CI_Biz
     {
         $this->load->model(['terms_model','terms_taxonomy_model']);
 		$this->load->helper(['array']);
+        $this->db = $this->load->mysql("garden");
     }
     /**
      * 获取全部分类信息
@@ -73,11 +74,11 @@ class terms_biz extends CI_Biz
             'data'       =>[],
         ];
 
-        $this->db->trans_begin();
+        $this->db->begin();
 	    $res = $this->terms_model->deleteTerms($term_id);
 	    if (FALSE === $res)
 	    {
-            $this->db->trans_rollback();
+            $this->db->rollback();
 	        $r['error_code'] = DATABASE_FALSE;
 	        $r['msg']        = '网络错误，请稍后再试';
 	        return $r;
@@ -87,13 +88,13 @@ class terms_biz extends CI_Biz
         $res = $this->terms_taxonomy_model->deleteTermsTaxonomyByTermId($term_id,$taxonomy);
         if (FALSE === $res)
 	    {
-            $this->db->trans_rollback();
+            $this->db->rollback();
 	        $r['error_code'] = DATABASE_FALSE;
 	        $r['msg']        = '网络错误，请稍后再试';
 	        return $r;
         }
 
-        $this->db->trans_commit();
+        $this->db->commit();
         return $r;
     }
     
@@ -200,22 +201,23 @@ public function recursion($data, $pid = 0)
         if(!$slug){
             $slug = $term_name;
         }
+    
         $creator_user_id = $this->current_user['user']['userId'];
         // $creator_user_name = $this->current_user['user']['userCode'];#SSO用户名
         $creator_user_name = $this->current_user['user']['realName'];#SSO用户名
 
-        $this->db->trans_begin();
+        $this->db->begin();
         if(empty($term_id)){
             $terms_info = $this->terms_model->getTermsByName($term_name);
             if(FALSE === $terms_info){
-                $this->db->trans_rollback();
+                $this->db->rollback();
                 $r['error_code'] = ERROR_PARAMS;
                 $r['error_msg'] = '分类目录名称已经存在,请勿重复添加~';
                 return $r;
             }
             $term_id  = $this->terms_model->addNewTerms($term_name,$slug,$sort_order,$creator_user_id,$creator_user_name);
             if(FALSE === $term_id){
-                $this->db->trans_rollback();
+                $this->db->rollback();
                 $r['error_code'] = DATABASE_FALSE;
                 $r['error_msg'] = '网络错误';
                 return $r;
@@ -223,7 +225,7 @@ public function recursion($data, $pid = 0)
         }else{
             $res  = $this->terms_model->modifyTerms($term_id,$term_name,$slug,$sort_order,$creator_user_id,$creator_user_name);
             if(FALSE === $res){
-                $this->db->trans_rollback();
+                $this->db->rollback();
                 $r['error_code'] = DATABASE_FALSE;
                 $r['error_msg'] = '网络错误';
                 return $r;
@@ -235,24 +237,26 @@ public function recursion($data, $pid = 0)
         $count=0;
         $terms_taxonomy_info = $this->terms_taxonomy_model->getTermsTaxonomyByTermId($term_id,$taxonomy);
         if(!$terms_taxonomy_info){
-            $res  = $this->terms_taxonomy_model->addNewTermsTaxonomy($term_id,$taxonomy,$parent,$description,$count);
-            if(FALSE === $res){
-                $this->db->trans_rollback();
+            $terms_taxonomy_id  = $this->terms_taxonomy_model->addNewTermsTaxonomy($term_id,$taxonomy,$parent,$description,$count);
+            if(FALSE === $terms_taxonomy_id){
+                $this->db->rollback();
                 $r['error_code'] = DATABASE_FALSE;
                 $r['error_msg'] = '网络错误';
                 return $r;
             }
+        }else{
+            $terms_taxonomy_id = $terms_taxonomy_info['id'];
         }
 
-        $term_id  = $this->terms_taxonomy_model->modifyTermsTaxonomyByTermId($terms_taxonomy_info['id'], $term_id, $taxonomy, $parent, $description, $count);
+        $res  = $this->terms_taxonomy_model->modifyTermsTaxonomyByTermId($terms_taxonomy_id, $term_id, $taxonomy, $parent, $description, $count);
         if (FALSE === $res) {
-            $this->db->trans_rollback();
+            $this->db->rollback();
             $r['error_code'] = DATABASE_FALSE;
             $r['error_msg'] = '网络错误';
             return $r;
         }
 
-        $this->db->trans_commit();
+        $this->db->commit();
         return $r;
     }
 }

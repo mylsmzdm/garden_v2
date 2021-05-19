@@ -6,7 +6,7 @@ if (!defined('BASEPATH'))
  * mysql配置
  */
 $config['mysql'] = [
-    'sos' => [
+    'garden' => [
         // 'username' => 'ding_sos_user',
         'username' => 'root',
         // 'password' => 'A0gqlejlUDqlOmRd',

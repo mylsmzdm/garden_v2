@@ -21,11 +21,11 @@ abstract class MY_Controller extends CI_Controller {
 
         if ($this->input->is_cli_request()) {
             #job
-            $this->cat->init('sos.job');
+            $this->cat->init('garden.job');
             $this->cat->job_trace();
         } else {
             #web
-            $this->cat->init('ding-sos.zdm.net');
+            $this->cat->init('garden.zdm.net');
             $this->cat->url_trace();
         }
 
@@ -34,19 +34,19 @@ abstract class MY_Controller extends CI_Controller {
 
         // 配合前端联调 允许跨域访问 这几行不要合并 不要上线!!!
 
-        $allow_orgin = [
-            'https://sos-bgm.zdm.net'
-        ];
-        header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
-        header("Access-Control-Allow-Credentials: true");
-        if(isset($_SERVER['HTTP_ORIGIN'])){
-            $http_origin = $_SERVER['HTTP_ORIGIN'];
-        //     if(in_array($http_origin,$allow_orgin)){
-                header("Access-Control-Allow-Origin: $http_origin");
+        // $allow_orgin = [
+        //     'https://garden.zdm.net'
+        // ];
+        // header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+        // header("Access-Control-Allow-Credentials: true");
+        // if(isset($_SERVER['HTTP_ORIGIN'])){
+        //     $http_origin = $_SERVER['HTTP_ORIGIN'];
+        // //     if(in_array($http_origin,$allow_orgin)){
+        //         header("Access-Control-Allow-Origin: $http_origin");
+        // // }
+        //     } else {
+        //     header("Access-Control-Allow-Origin: *");
         // }
-            } else {
-            header("Access-Control-Allow-Origin: *");
-        }
 
         $this->init();
 
@@ -98,7 +98,7 @@ abstract class MY_Controller extends CI_Controller {
     }
 
     // CAS权限校验
-    function check_permission(array $permission = [], $appCode = 'bgm-sos', $treelike = true, $force = false, array $args = []) {
+    function check_permission(array $permission = [], $appCode = 'zindex', $treelike = true, $force = false, array $args = []) {
         return $result = [
             'error_code' => 0,
             'error_msg' => '',
@@ -145,7 +145,7 @@ abstract class MY_Controller extends CI_Controller {
         // 校验权限
         $userPower = isset($userinfo['data']['permissions']) ? $userinfo['data']['permissions'] : [];
         // 公共资源跳过验证
-        if ($permission == ['bgm-sos.department-manage.bumen']){
+        if ($permission == ['zindex.department-manage.bumen']){
             goto ARCHOR_PERMISSION;
         }
         if(!empty($permission) && !array_intersect($permission,$userPower)){
@@ -175,7 +175,7 @@ abstract class MY_Controller extends CI_Controller {
         return $result;
 
         RESULT:
-        $result['data']['login_url'] = 'https://sso1-bgm.smzdm.com/cas/login?service='.urldecode('https://ding-sos.zdm.net:443/check_cas/login');
+        $result['data']['login_url'] = 'https://sso1-bgm.smzdm.com/cas/login?service='.urldecode('https://garden.zdm.net:443/check_cas/login');
         //非法访问跳转到bgm后台
         if (!empty($args['return_type']))
         {

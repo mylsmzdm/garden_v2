@@ -7,7 +7,7 @@ if (!defined('BASEPATH'))
 
     public function __construct() {
         parent::__construct();
-        $this->db = $this->load->mysql("enterprise_portal");
+        $this->db = $this->load->mysql("garden");
     }
     
     public function on_shutdown() {

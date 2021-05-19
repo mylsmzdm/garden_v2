@@ -110,7 +110,7 @@ class User_rbac_api extends CI_Model{
 
     /**
      * 根据系统标识批量获取用户信息
-     *      bgm-sos，仅返回所属系统角色
+     *      zindex，仅返回所属系统角色
      * 
      *      接口文档：http://twiki:8081/twiki/Main/GetUserListByResCode
      * 

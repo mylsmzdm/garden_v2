@@ -31,8 +31,6 @@ class Config {
         'sso_api_url'   =>  'http://sso-api.smzdm.com:8080',
         'auth_api_url'   =>  'http://authapi.smzdm.com:8080',
         'commonservice_api_url' => 'http://commonservice.smzdm.com:809',
-        'sos'           =>  'https://sos-bgm.zdm.net/',
-        'ding_api'           =>  'https://oapi.dingtalk.com',
     ];
 
     #sos同步bgm操作类型map
@@ -42,8 +40,8 @@ class Config {
         3 => 'delete'
     ];
 
-    #sos-sso配置
-    static $sos_sso_api = [
+    #zindex-sso配置
+    static $zindex_sso_api = [
         'is_open' => 1, //0关闭 1打开
         'number_attempts' => 3, //尝试重写次数，达到此次数后报警
         'number_fail' => 5, //失败数量界限，达到此界限后报警
@@ -56,7 +54,7 @@ class Config {
     ];
 
     static $constant = [
-        'bgm_app_code' => 'bgm-sos',
+        'bgm_app_code' => 'zindex',
     ];
 }
 

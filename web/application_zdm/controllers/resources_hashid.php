@@ -31,7 +31,7 @@ class Resources_hashid extends MY_Controller {
 //            return;
 //        }
 
-        $this->check_permission([], 'bgm-sos', TRUE, FALSE, ['return_type' => 1]);
+        $this->check_permission([], 'zindex', TRUE, FALSE, ['return_type' => 1]);
 
         $this->load->config('hashids');
         $view_data = [

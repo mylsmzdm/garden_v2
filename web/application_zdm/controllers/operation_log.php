@@ -11,7 +11,7 @@ if (!defined('BASEPATH'))
 class Operation_log extends MY_Controller
 {
     function init() {
-        $this->check_permission(['bgm-sos.system-manage.log']);
+        $this->check_permission(['zindex.system-manage.log']);
         $this->load->biz(['operation_log_biz']);
     }
 

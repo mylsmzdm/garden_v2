@@ -12,9 +12,9 @@ class Check_cas extends MY_Controller
 
     // 校验SSO登录, 返回左侧菜单
     public function login() {
-        $perm = $this->check_permission([], 'bgm-sos', true,  true);
+        $perm = $this->check_permission([], 'zindex', true,  true);
         if ($perm['error_code'] == 0) {
-            header('Location: https://sos-bgm.zdm.net');
+            header('Location: https://garden.zdm.net');
         }
     }
 }

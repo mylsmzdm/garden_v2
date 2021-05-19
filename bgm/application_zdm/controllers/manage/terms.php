@@ -11,15 +11,15 @@ class Terms extends MY_Controller
     {
         $this->check_permission(['bgm-zhidemai.terms.edit']);
         $terms_id = $this->input->get_post('terms_id', 0);
-        if(!$terms_id){
-            $this->response(ERROR_PARAMS,'terms_id不能为空',[]);
-            return;
-        }
+        // if(!$terms_id){
+        //     $this->response(ERROR_PARAMS,'terms_id不能为空',[]);
+        //     return;
+        // }
 
         $terms_name= $this->input->get_post('terms_name', '');
         $terms_slug= $this->input->get_post('terms_slug', '');
-        $parent= $this->input->get_post('parent', 0);
-        $sort_order= $this->input->get_post('sort_order', 0);
+        $parent= intval($this->input->get_post('parent', 0));
+        $sort_order= intval($this->input->get_post('sort_order', 0));
         $res = $this->terms_biz->edit_terms($terms_id,$terms_name,$terms_slug,$sort_order,$parent);
         return $this->response($res['error_code'], $res['error_msg'], $res['data']);       
     }

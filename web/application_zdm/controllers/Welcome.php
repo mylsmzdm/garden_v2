@@ -9,6 +9,6 @@ if (!defined('BASEPATH'))
 class Welcome extends CI_Controller {
      public function index()
     {
-         header('Location:/pages/sos/index.html');
+       exit('Hello World');
     }
 }

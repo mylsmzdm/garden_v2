@@ -29,7 +29,7 @@ class terms_model extends MY_Model
                 {$where}
                 ORDER BY  epwp_terms.sort_order DESC,epwp_terms.created_at DESC
                 {$limit}";
-                
+
         $rows = $this->db->prepare_query($sql,$condition_work);
         if (false === $rows)
         {
@@ -66,7 +66,6 @@ class terms_model extends MY_Model
                 LEFT JOIN epwp_term_taxonomy  ON epwp_term_taxonomy.term_id=epwp_terms.term_id
                 LEFT JOIN epwp_terms as parent_terms  ON parent_terms.term_id=epwp_term_taxonomy.parent
                 {$where} ";
-
         $row = $this->db->prepare_query($sql, $condition_work, ['get' => 'row']);
         return $row;
         }
@@ -82,7 +81,7 @@ class terms_model extends MY_Model
         $insert_arr['create_user_name']  = $create_username;
         $insert_arr['sort_order']  = $sort_order;
         $insert_arr['updated_at']  = date('Y-m-d H:i:s');
-        $insert_arr['created_at']  = $this->updated_at;
+        $insert_arr['created_at']  =   $insert_arr['updated_at'];
         return $this->db->insert($this->getTable(), $insert_arr); 
         }
 

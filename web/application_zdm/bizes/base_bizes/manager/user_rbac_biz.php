@@ -286,7 +286,7 @@ class User_rbac_biz extends CI_Biz{
 
     /**
      * 根据系统标识批量获取用户信息
-     *      bgm-sos，仅返回所属系统角色
+     *      zindex，仅返回所属系统角色
      *
      * @param  array    $args       参数
      * @return array
@@ -301,7 +301,7 @@ class User_rbac_biz extends CI_Biz{
         ];
         $default_args = [
             'user_ids' => '',
-            'app_code' => 'bgm-sos', #系统标识，约定会写死使用'bgm-sos'
+            'app_code' => 'zindex', #系统标识，约定会写死使用'zindex'
         ];
         $args = array_merge($default_args, $args);
 

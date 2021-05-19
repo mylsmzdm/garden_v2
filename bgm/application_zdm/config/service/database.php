@@ -6,7 +6,7 @@ if (!defined('BASEPATH'))
  * mysql配置
  */
 $config['mysql'] = [
-    'enterprise_portal' => [
+    'garden' => [
         // 'username' => 'enterprise_portal',
         'username' => 'root',
         // 'password' => 'xsHvf9QChdS85V-cuIGwZ',

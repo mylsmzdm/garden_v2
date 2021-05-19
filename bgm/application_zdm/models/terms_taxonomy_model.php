@@ -15,7 +15,8 @@ class terms_taxonomy_model extends MY_Model
         $insert_arr['parent']  = $parent;
         $insert_arr['description']  = $description;
         $insert_arr['count']  = $count;
-        return $this->db->insert($this->getTable(), $insert_arr); 
+        $res  = $this->db->insert($this->getTable(), $insert_arr); 
+        return $res;
     }
 
    /**
@@ -41,14 +42,14 @@ class terms_taxonomy_model extends MY_Model
      * 通过父类获取子类信息
      */
     public function getTermIdsByParentId($parent_id,$taxonomy='category'){
-        return  $this->db->select($this->getTable(),['parent=' => $parent_id,'taxonomy'=>$taxonomy],['fields' => 'term_taxonomy_id','term_id','name']);
+        return  $this->db->select($this->getTable(),['parent=' => $parent_id,'taxonomy'=>$taxonomy],['fields' => 'term_taxonomy_id,term_id,name']);
     }
       
      /**
      * 通过terms_id获取信息
      */
     public function getTermsTaxonomyByTermId($term_id,$taxonomy='category'){
-        return  $this->db->select_row($this->getTable(),['term_id=' => $term_id,'taxonomy'=>$taxonomy],['fields' => 'term_taxonomy_id','term_id,name']);
+        return  $this->db->select_row($this->getTable(),['term_id=' => $term_id,'taxonomy='=>$taxonomy],['fields' => 'term_taxonomy_id as id ,term_id']);
     }
 
     /**

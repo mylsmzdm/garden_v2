@@ -25,6 +25,6 @@ class cron extends MY_Controller {
         @ini_set('max_execution_time', '0');
         @ini_set('memory_limit','512M');
 
-        $this->db = $this->load->mysql('sos');
+        $this->db = $this->load->mysql('garden');
     }
 }
